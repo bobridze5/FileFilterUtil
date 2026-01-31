@@ -1,40 +1,28 @@
 package ctf.alsaev.file;
 
-import java.util.ArrayList;
-import java.util.List;
+import ctf.alsaev.statistics.Statistics;
 
-public class DataFilter {
-    private List<Long> integers = new ArrayList<>();
-    private List<Double> doubles = new ArrayList<>();
-    private List<String> strings = new ArrayList<>();
+public class DataFilter implements Filter {
+    private final Statistics statistics = new Statistics();
 
     public void filter(String line) {
         if (line == null || line.isBlank()) return;
 
-        for (String word : line.split(" ")) {
+        try {
+            long value = Long.parseLong(line);
+            statistics.add((double) value);
+        } catch (NumberFormatException e1) {
             try {
-                long value = Long.parseLong(word);
-                integers.add(value);
-            } catch (NumberFormatException e1) {
-                try {
-                    double value = Double.parseDouble(word);
-                    doubles.add(value);
-                } catch (NumberFormatException e2) {
-                    strings.add(word);
-                }
+                double value = Double.parseDouble(line);
+                statistics.add(value);
+            } catch (NumberFormatException e2) {
+                statistics.add(line);
             }
         }
+
     }
 
-    public List<Double> getDoubles() {
-        return new ArrayList<>(doubles);
-    }
-
-    public List<Long> getIntegers() {
-        return new ArrayList<>(integers);
-    }
-
-    public List<String> getStrings() {
-        return new ArrayList<>(strings);
+    public Statistics getStatistics() {
+        return statistics;
     }
 }

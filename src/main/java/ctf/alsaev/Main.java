@@ -19,5 +19,6 @@ public class Main {
         }
 
         FileManager fileManager = new FileManager(pArgs.getPaths());
+        fileManager.process();
     }
 }
