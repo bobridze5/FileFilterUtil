@@ -2,6 +2,7 @@ package ctf.alsaev;
 
 import com.beust.jcommander.JCommander;
 import ctf.alsaev.cmd.Args;
+import ctf.alsaev.file.FileManager;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,5 +17,7 @@ public class Main {
         if (pArgs.isHelp()) {
             jc.usage();
         }
+
+        FileManager fileManager = new FileManager(pArgs.getPaths());
     }
 }

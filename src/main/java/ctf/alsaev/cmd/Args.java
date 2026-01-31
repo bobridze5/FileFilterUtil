@@ -2,7 +2,12 @@ package ctf.alsaev.cmd;
 
 import com.beust.jcommander.Parameter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Args {
+    @Parameter
+    List<String> paths = new ArrayList<>();
 
     @Parameter(
             names = {"-o", "--output"},
@@ -54,5 +59,9 @@ public class Args {
 
     public String getPrefixName() {
         return prefixName;
+    }
+
+    public List<String> getPaths() {
+        return new ArrayList<>(paths);
     }
 }
