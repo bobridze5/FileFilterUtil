@@ -16,13 +16,19 @@ public class FileManager {
         this.paths = paths;
     }
 
-    public void run() {
+    public void handleFiles() {
         for (String path : paths) {
-            reader.open(path);
+            try {
+                reader.open(path);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                filter.filter(line);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    filter.filter(line);
+                }
+            } catch (Exception e) {
+
+            } finally {
+                reader.close();
             }
         }
     }

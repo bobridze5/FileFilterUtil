@@ -1,7 +1,5 @@
 package ctf.alsaev.statistics;
 
-import java.math.BigDecimal;
-
 public class StatisticsPrinter {
 //    public static void print(Statistics fileStatistics) {
 //        System.out.println("*".repeat(10) + " Статистика " + "*".repeat(10));
@@ -15,7 +13,19 @@ public class StatisticsPrinter {
 //        System.out.printf("Длина макс:  \t%d\n", fileStatistics.getMaxLength());
 //    }
 
-    public static void print(Statistics statistics) {
-        System.out.println(statistics.collect());
+    public static void print(StatisticsReport report, boolean showFull, boolean showShort) {
+        if (showFull) {
+            printFullStatistic(report);
+        } else if (showShort) {
+            printShortStatistics(report);
+        }
+    }
+
+    private static void printFullStatistic(StatisticsReport report) {
+
+    }
+
+    private static void printShortStatistics(StatisticsReport report) {
+
     }
 }

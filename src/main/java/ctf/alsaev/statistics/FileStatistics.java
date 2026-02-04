@@ -1,76 +1,31 @@
 package ctf.alsaev.statistics;
 
-import java.util.Map;
+import java.util.DoubleSummaryStatistics;
+import java.util.LongSummaryStatistics;
 
 public class FileStatistics implements Statistics {
-    private long countNumbers;
-    private long countStrings;
-    private Double min;
-    private Double max;
-    private Double sum = 0.0;
-    private long minLength;
-    private long maxLength;
+    LongSummaryStatistics longSummaryStatistics = new LongSummaryStatistics();
+    DoubleSummaryStatistics doubleSummaryStatistics = new DoubleSummaryStatistics();
+    StringSummaryStatistics stringSummaryStatistics = new StringSummaryStatistics();
 
+    public void add(long value) {
+        longSummaryStatistics.accept(value);
+    }
 
     public void add(double value) {
-        if (countNumbers == 0) {
-            min = value;
-            max = value;
-        } else {
-            min = Math.min(min, value);
-            max = Math.max(max, value);
-        }
-        countNumbers++;
-        sum += value;
+        doubleSummaryStatistics.accept(value);
     }
 
     public void add(String value) {
-        long length = value.length();
-        if (countStrings == 0) {
-            minLength = length;
-            maxLength = length;
-        } else {
-            minLength = Math.min(minLength, value.length());
-            maxLength = Math.max(maxLength, value.length());
-        }
-        countStrings++;
-
-    }
-
-    public Double getMax() {
-        return max;
-    }
-
-    public Double getMin() {
-        return min;
-    }
-
-    public Double getSum() {
-        return sum;
-    }
-
-    public long getCountNumbers() {
-        return countNumbers;
-    }
-
-    public long getCountStrings() {
-        return countStrings;
-    }
-
-    public long getMaxLength() {
-        return maxLength;
-    }
-
-    public long getMinLength() {
-        return minLength;
-    }
-
-    public Double getAverage() {
-        return countNumbers == 0 ? 0 : sum / countNumbers;
+        stringSummaryStatistics.accept(value);
     }
 
     @Override
-    public Map<String, Double> collect() {
-        return Map.of();
+    public StatisticsReport collect() {
+        return new StatisticsReport(
+                longSummaryStatistics,
+                doubleSummaryStatistics,
+                stringSummaryStatistics
+        );
     }
 }

@@ -1,9 +1,8 @@
 package ctf.alsaev.statistics;
 
-import java.util.Map;
-
 public interface Statistics {
+    void add(long value);
     void add(double value);
     void add(String value);
-    Map<String, Double> collect();
+    StatisticsReport collect();
 }

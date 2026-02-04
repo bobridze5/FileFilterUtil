@@ -12,8 +12,6 @@ public class FileReader implements IReader {
     private BufferedReader reader;
 
     public void open(String filePath) {
-        close();
-
         try {
             Path path = Paths.get(filePath);
 

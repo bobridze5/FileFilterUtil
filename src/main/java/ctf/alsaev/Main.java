@@ -36,7 +36,7 @@ public class Main {
         Statistics statistics = new FileStatistics();
         Filter filter = new DataFilter(container, statistics);
         FileManager fileManager = new FileManager(reader, filter, pArgs.getPaths());
-        fileManager.run();
-        StatisticsPrinter.print(statistics);
+        fileManager.handleFiles();
+        StatisticsPrinter.print(statistics.collect(), pArgs.isFullStatsMode(), pArgs.isShortStatsMode());
     }
 }
