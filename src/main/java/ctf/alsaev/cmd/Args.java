@@ -14,14 +14,14 @@ public class Args {
             description = "Указать путь для результатов",
             arity = 1
     )
-    private String outputPath;
+    private String outputPath = "";
 
     @Parameter(
             names = {"-p", "--prefix"},
             description = "Добавить префикс для имён выходных файлов",
             arity = 1
     )
-    private String prefixName;
+    private String prefixName = "";
 
     @Parameter(
             names = {"-a", "--append"},
@@ -59,6 +59,18 @@ public class Args {
 
     public String getPrefixName() {
         return prefixName;
+    }
+
+    public boolean isAppendMode() {
+        return isAppendMode;
+    }
+
+    public boolean isShortStatsMode() {
+        return isShortStatsMode;
+    }
+
+    public boolean isFullStatsMode() {
+        return isFullStatsMode;
     }
 
     public List<String> getPaths() {

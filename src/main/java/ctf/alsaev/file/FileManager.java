@@ -1,28 +1,39 @@
 package ctf.alsaev.file;
 
+import ctf.alsaev.cmd.Args;
 import ctf.alsaev.statistics.Statistics;
-import ctf.alsaev.statistics.StatisticsPrinter;
 
+import java.io.IOException;
 import java.util.List;
 
 public class FileManager {
     private final List<String> paths;
-    private final DataFilter dataFilter = new DataFilter();
+    private final FileWriter fileWriter;
+    private final FileHandler fileHandler;
+    private final Statistics statistics;
 
-    public FileManager(List<String> paths) {
-        this.paths = paths;
+    public FileManager(Args args) {
+        this.paths = args.getPaths();
+        this.statistics = new Statistics();
+        this.fileWriter = new FileWriter(args.getOutputPath(), args.getPrefixName(), args.isAppendMode());
+        this.fileHandler = new FileHandler(new DataFilter(fileWriter, statistics));
     }
 
-    public void process() {
-        FileReader fileReader = new FileReader(dataFilter);
-
+    public Statistics process() {
         for (String path : paths) {
-            fileReader.readFile(path);
+            fileHandler.handle(path);
         }
 
-        Statistics statistics = dataFilter.getStatistics();
-        StatisticsPrinter.print(statistics);
+        closeWriter();
 
-        FileWriter fileWriter = new FileWriter();
+        return statistics;
+    }
+
+    private void closeWriter() {
+        try {
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
