@@ -1,4 +1,4 @@
-package ctf.alsaev.file;
+package ctf.alsaev.file.Interfaces;
 
 import java.io.IOException;
 

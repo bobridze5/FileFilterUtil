@@ -3,8 +3,8 @@ package ctf.alsaev;
 import com.beust.jcommander.JCommander;
 import ctf.alsaev.cmd.Args;
 import ctf.alsaev.file.FileManager;
-import ctf.alsaev.statistics.Statistics;
-import ctf.alsaev.statistics.StatisticsPrinter;
+import ctf.alsaev.file.WriterContainer;
+import ctf.alsaev.statistics.fileStatistics;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,8 +20,13 @@ public class Main {
             jc.usage();
         }
 
-        FileManager fileManager = new FileManager(pArgs);
-        Statistics statistics = fileManager.process();
-        StatisticsPrinter.print(statistics);
+        WriterContainer container = new WriterContainer(
+                pArgs.getOutputPath(),
+                pArgs.getPrefixName(),
+                pArgs.isAppendMode()
+        );
+
+        FileManager fileManager = new FileManager();
+
     }
 }

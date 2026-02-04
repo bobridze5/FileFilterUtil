@@ -1,16 +1,18 @@
 package ctf.alsaev.file;
 
-import ctf.alsaev.statistics.Statistics;
+import ctf.alsaev.file.Interfaces.Filter;
+import ctf.alsaev.statistics.fileStatistics;
 
 import java.io.IOException;
 
+@Deprecated
 public class DataFilter implements Filter {
     private final FileWriter writer;
-    private final Statistics statistics;
+    private final fileStatistics fileStatistics;
 
-    public DataFilter(FileWriter writer, Statistics statistics) {
+    public DataFilter(FileWriter writer, fileStatistics fileStatistics) {
         this.writer = writer;
-        this.statistics = statistics;
+        this.fileStatistics = fileStatistics;
     }
 
     @Override
@@ -20,15 +22,15 @@ public class DataFilter implements Filter {
         line = line.strip();
         try {
             long value = Long.parseLong(line);
-            statistics.add(value);
+            fileStatistics.add(value);
             writer.write(value);
         } catch (NumberFormatException e1) {
             try {
                 double value = Double.parseDouble(line);
-                statistics.add(value);
+                fileStatistics.add(value);
                 writer.write(value);
             } catch (NumberFormatException e2) {
-                statistics.add(line);
+                fileStatistics.add(line);
                 writer.write(line);
             }
         }
