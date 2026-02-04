@@ -31,5 +31,7 @@ public class FileManager {
                 reader.close();
             }
         }
+
+        filter.close();
     }
 }

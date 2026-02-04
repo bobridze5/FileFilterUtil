@@ -36,7 +36,8 @@ public class FileWriter implements IWriter {
         if (writer != null) {
             try {
                 writer.close();
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }

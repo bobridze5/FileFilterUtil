@@ -28,6 +28,11 @@ public class DataFilter implements Filter {
         writer.write(line);
     }
 
+    @Override
+    public void close() {
+        writer.close();
+    }
+
     private <T> boolean tryParse(
             String s,
             Function<String, T> parser,
