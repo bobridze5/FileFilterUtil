@@ -2,9 +2,15 @@ package ctf.alsaev;
 
 import com.beust.jcommander.JCommander;
 import ctf.alsaev.cmd.Args;
+import ctf.alsaev.file.DataFilter;
 import ctf.alsaev.file.FileManager;
+import ctf.alsaev.file.FileReader;
+import ctf.alsaev.file.Interfaces.Filter;
+import ctf.alsaev.file.Interfaces.IReader;
 import ctf.alsaev.file.WriterContainer;
-import ctf.alsaev.statistics.fileStatistics;
+import ctf.alsaev.statistics.FileStatistics;
+import ctf.alsaev.statistics.Statistics;
+import ctf.alsaev.statistics.StatisticsPrinter;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,7 +32,11 @@ public class Main {
                 pArgs.isAppendMode()
         );
 
-        FileManager fileManager = new FileManager();
-
+        IReader reader = new FileReader();
+        Statistics statistics = new FileStatistics();
+        Filter filter = new DataFilter(container, statistics);
+        FileManager fileManager = new FileManager(reader, filter, pArgs.getPaths());
+        fileManager.run();
+        StatisticsPrinter.print(statistics);
     }
 }

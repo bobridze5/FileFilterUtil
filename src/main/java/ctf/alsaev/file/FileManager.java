@@ -1,21 +1,29 @@
 package ctf.alsaev.file;
 
+import ctf.alsaev.file.Interfaces.Filter;
 import ctf.alsaev.file.Interfaces.IReader;
-import ctf.alsaev.file.Interfaces.IWriter;
-import ctf.alsaev.statistics.Statistics;
 
 import java.util.List;
 
 public class FileManager {
-    private final List<String> paths = null;
-
+    private final List<String> paths;
     private final IReader reader;
-    private final IWriter writer;
-    private final Statistics statistics;
+    private final Filter filter;
 
-    public FileManager(IReader reader, IWriter writer, Statistics statistics){
-        this.statistics = statistics;
-        this.writer = writer;
+    public FileManager(IReader reader, Filter filter, List<String> paths) {
         this.reader = reader;
+        this.filter = filter;
+        this.paths = paths;
+    }
+
+    public void run() {
+        for (String path : paths) {
+            reader.open(path);
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                filter.filter(line);
+            }
+        }
     }
 }
