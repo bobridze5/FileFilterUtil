@@ -3,17 +3,16 @@ package ctf.alsaev.file;
 import ctf.alsaev.file.Interfaces.IWriter;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 public class FileWriter implements IWriter {
-    private final String fullPath;
+    private final Path path;
     private final boolean append;
     private BufferedWriter writer;
 
     public FileWriter(String path, String prefix, String fileName, boolean append){
-        this.fullPath = Paths.get(path, prefix + fileName).toString();
+        this.path = Paths.get(path, prefix + fileName);
         this.append = append;
     }
 
@@ -21,8 +20,8 @@ public class FileWriter implements IWriter {
     public void write(String line) {
         try {
             if (writer == null) {
-                File file = new File(fullPath);
-                writer = new BufferedWriter(new java.io.FileWriter(file, append));
+                createDirectoryIfNotExists(path);
+                writer = createWriter(path, append);
             }
             writer.write(line);
             writer.newLine();
@@ -40,5 +39,17 @@ public class FileWriter implements IWriter {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private void createDirectoryIfNotExists(Path path) throws IOException {
+        Path parentDirectory = path.getParent();
+        if (parentDirectory != null) {
+            Files.createDirectories(parentDirectory);
+        }
+    }
+
+    private BufferedWriter createWriter(Path path, boolean append) throws IOException {
+        return Files.newBufferedWriter(path, StandardOpenOption.CREATE, append ?
+                StandardOpenOption.APPEND : StandardOpenOption.TRUNCATE_EXISTING);
     }
 }
