@@ -11,23 +11,19 @@ public class FileWriter implements IWriter {
     private final boolean append;
     private BufferedWriter writer;
 
-    public FileWriter(String path, String prefix, String fileName, boolean append){
+    public FileWriter(String path, String prefix, String fileName, boolean append) {
         this.path = Paths.get(path, prefix + fileName);
         this.append = append;
     }
 
     @Override
-    public void write(String line) {
-        try {
-            if (writer == null) {
-                createDirectoryIfNotExists(path);
-                writer = createWriter(path, append);
-            }
-            writer.write(line);
-            writer.newLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void write(String line) throws IOException {
+        if (writer == null) {
+            createDirectoryIfNotExists(path);
+            writer = createWriter(path, append);
         }
+        writer.write(line);
+        writer.newLine();
     }
 
     @Override
@@ -36,7 +32,7 @@ public class FileWriter implements IWriter {
             try {
                 writer.close();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.err.println("Не удалось закрыть writer: " + e.getMessage());
             }
         }
     }

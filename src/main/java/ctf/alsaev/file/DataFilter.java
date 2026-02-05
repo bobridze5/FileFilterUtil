@@ -1,8 +1,10 @@
 package ctf.alsaev.file;
 
 import ctf.alsaev.file.Interfaces.Filter;
+import ctf.alsaev.file.Interfaces.IOConsumer;
 import ctf.alsaev.statistics.Statistics;
 
+import java.io.IOException;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -16,7 +18,7 @@ public class DataFilter implements Filter {
     }
 
     @Override
-    public void filter(String line) {
+    public void filter(String line) throws IOException {
         if (line == null || line.isBlank()) return;
 
         line = line.strip();
@@ -37,8 +39,8 @@ public class DataFilter implements Filter {
             String s,
             Function<String, T> parser,
             Consumer<T> statsAction,
-            Consumer<T> writerAction
-    ) {
+            IOConsumer<T> writerAction
+    ) throws IOException {
         try {
             T value = parser.apply(s);
             statsAction.accept(value);
