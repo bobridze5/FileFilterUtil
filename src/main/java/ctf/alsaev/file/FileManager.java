@@ -26,7 +26,7 @@ public class FileManager {
                     filter.filter(line);
                 }
             } catch (Exception e) {
-
+                System.err.println(e.getMessage());
             } finally {
                 reader.close();
             }
