@@ -5,21 +5,23 @@ import ctf.alsaev.file.Interfaces.IReader;
 
 import java.util.List;
 
-public class FileManager {
+public class FileHandler {
     private final List<String> paths;
     private final IReader reader;
     private final Filter filter;
 
-    public FileManager(IReader reader, Filter filter, List<String> paths) {
+    public FileHandler(IReader reader, Filter filter, List<String> paths) {
         this.reader = reader;
         this.filter = filter;
         this.paths = paths;
     }
 
-    public void handleFiles() {
+    public boolean handleFiles() {
+        boolean success = false;
         for (String path : paths) {
             try {
                 reader.open(path);
+                success = true;
 
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -33,5 +35,6 @@ public class FileManager {
         }
 
         filter.close();
+        return success;
     }
 }

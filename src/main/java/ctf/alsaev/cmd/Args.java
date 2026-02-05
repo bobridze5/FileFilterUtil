@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Args {
-    @Parameter
+    @Parameter(description = "Список входных файлов")
     List<String> paths = new ArrayList<>();
 
     @Parameter(
