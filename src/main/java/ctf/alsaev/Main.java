@@ -12,6 +12,15 @@ import ctf.alsaev.statistics.FileStatistics;
 import ctf.alsaev.statistics.Statistics;
 import ctf.alsaev.statistics.StatisticsPrinter;
 
+/**
+ * Главный класс приложения.
+ * <p>
+ * Выполняет инициализацию парсера аргументов, настраивает компоненты для ввода/вывода,
+ * запускает процесс фильтрации и выводит финальную статистика
+ * </p>
+ *
+ * @author Alsaev Dmitry
+ */
 public class Main {
     public static void main(String[] args) {
         Args pArgs = new Args();
