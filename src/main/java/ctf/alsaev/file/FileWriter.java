@@ -4,6 +4,7 @@ import ctf.alsaev.file.Interfaces.IWriter;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
 public class FileWriter implements IWriter {
@@ -45,7 +46,7 @@ public class FileWriter implements IWriter {
     }
 
     private BufferedWriter createWriter(Path path, boolean append) throws IOException {
-        return Files.newBufferedWriter(path, StandardOpenOption.CREATE, append ?
+        return Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.CREATE, append ?
                 StandardOpenOption.APPEND : StandardOpenOption.TRUNCATE_EXISTING);
     }
 }
